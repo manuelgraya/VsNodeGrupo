@@ -1,22 +1,9 @@
 version: 0.0
-os: linux
-files:
-  - source: /
-    destination: /home/ec2-user/nodejs-aws-codedeploy-pipeline
-hooks:
-# ApplicationStop:
-# DownloadBundle:
-#  BeforeInstall:
-#    - location: scripts/before_install.sh
-#      timeout: 300
-#      runas: root
-# Install:
-  AfterInstall:
-    - location: scripts/after_install.sh
-      timeout: 300
-      runas: root
-  ApplicationStart:
-    - location: scripts/application_start.sh
-      timeout: 300
-      runas: root
-# ValidateService:
+Resources:
+  - myECSService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: arn:aws:ecs:us-east-1:713881791522:task-definition/nodejs-app-task:1
+        LoadBalancerInfo:
+          ContainerName: nodejs-container
+          ContainerPort: 3000
